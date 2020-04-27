@@ -1,0 +1,13 @@
+
+.idea
+/.idea
+/.idea/**
+.idea/$CACHE_FILE$
+.idea/.gitignore
+.idea/NodeCore.iml
+.idea/dictionaries
+.idea/encodings.xml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
