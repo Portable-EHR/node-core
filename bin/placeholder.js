@@ -15,6 +15,7 @@ class Place extends Placeholder {
 
     constructor(props) {
         super(props);
+        console.log('a change initiated in telehealth project')
 
     }
 
