@@ -6,6 +6,9 @@ export abstract class Placeholder {
     public doIt(){
         return this.leaveItToBrian();
     }
+    public doItAgain(){
+        return this.doIt() && this.doIt();
+    }
 
 }
 
