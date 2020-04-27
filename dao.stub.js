@@ -5,3 +5,4 @@
  * Time: 7:56 a.m.
  *
  */
+console.log("dao.stub initialized nice and easy ");
