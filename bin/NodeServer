@@ -1,0 +1,170 @@
+#!/usr/bin/env node
+
+/*
+ * Copyright © Portable EHR inc, 2020
+ */
+/**
+ * Created by WebStorm.
+ * User: yvesleborg
+ * Date: 2016-08-21
+ * Time: 5:21 PM
+ *
+ */
+
+'use strict';
+
+const fileTag = __filename.replace(/(.*\/)([^.]*)(.*)/, '$2');
+
+/*
+ wherever, however, whenever ... this is started, lets base the process to the /bin folder
+ so that all dir references will work in all cases.
+*/
+
+const fs       = require('fs');
+const log4js   = require('log4js');
+
+process.chdir(__dirname.replace(/(.*\/)(.*\/.*)/, '$1'));   //  === _dirname+'/../..'
+process.on('exit',  () => {
+    log4js.shutdown()
+});
+
+const { makeDirIfNeeded } = require('../lib/utils');
+const { sysopPath, NodeName, appVersion, config:{ selfRestServer }, launchParams } = require('../../lib/node');
+
+makeDirIfNeeded(sysopPath + '/tmp');
+makeDirIfNeeded(sysopPath + '/log');
+
+let logger = log4js.getLogger(fileTag+'|'+NodeName);
+
+process.on('unhandledRejection', (reason, promise) => {
+    // noinspection JSCheckFunctionSignatures
+    logger.error('Unhandled Rejection at:', promise, '\n', Object.entries(promise).map(([key, value])=>`${key}: ${JSON.stringify(value)}`).join('\n'),'\nreason:', reason, '\n', Object.entries(reason).map(([key, value])=>`${key}: ${JSON.stringify(value)}`).join('\n'));
+    // Application specific logging, throwing an error, or other logic here
+});
+
+logger.error("Starting again at " + new Date());
+
+// logger.setLevel('INFO');
+logger.info("*********************************************************************");
+logger.info(`**  ${NodeName}Server starting ${' '.repeat(20-NodeName.length)}                           **`);
+logger.info("*********************************************************************");
+logger.info("[NODE]                Version", process.version);
+logger.info("[LOG4JS]              Configuration complete");
+logger.info(`[${NodeName}]${' '.repeat(20-NodeName.length)}Configuration complete, version :    `, appVersion);
+const os      = require('os');
+const numcpus = os.cpus().length;
+const arch    = os.arch();
+const run     = os.platform();
+const rel     = os.release();
+logger.info(`[CPUs]                Running on ${numcpus} CPUs, architecture ${arch}`);
+logger.info(`[OS]                  Platform ${run}, release ${rel}`);
+let freemem  = os.freemem() / (1024 * 1024);
+freemem      = Number(freemem).toFixed(0);
+let totalmem = os.totalmem() / (1024 * 1024);
+totalmem     = Number(totalmem).toFixed(0);
+logger.info(`[MEM]                 Total ${totalmem} Mb, free ${freemem} Mb`);
+let utm = os.uptime();
+logger.info(`[UPTIME]              ${utm} s.`);
+
+
+logger.info(`[EXPRESS]             spawning ...`);
+
+const http   = require('http');
+const https  = require('https');
+const app    = require('../../NodeServerApp');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+let port = normalizePort(selfRestServer.port);
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+let server = undefined;
+
+if (selfRestServer.isSchemeHttp) {
+    server = http.createServer(app);
+} else {
+    server = https.createServer({
+        key : fs.readFileSync(`${launchParams.resourcesPath}/server.key`),
+        cert: fs.readFileSync(`${launchParams.resourcesPath}/server.cert`)
+    }, app);
+}
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(selfRestServer.port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    let port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+
+    logger.error(error.message);
+
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    let bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            logger.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            logger.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            logger.debug('*** error ', error);
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    let addr = server.address();
+    logger.info(`[SERVER]              listening on port :                      ${addr.port}`);
+
+    app.start().catch(e => {                                                //  First Promise chain is spawned here!
+        logger.log("Error in NodeServerApp.start() :", e.stack)
+    });
+}
+
