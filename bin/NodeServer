@@ -88,8 +88,8 @@ if (selfRestServer.isSchemeHttp) {
     server = http.createServer(app);
 } else {
     server = https.createServer({
-        key : fs.readFileSync(`${launchParams.resourcesPath}/server.key`),
-        cert: fs.readFileSync(`${launchParams.resourcesPath}/server.cert`)
+        key : fs.readFileSync(`${launchParams.instanceResourcesPath}/server.key`),
+        cert: fs.readFileSync(`${launchParams.instanceResourcesPath}/server.cert`)
     }, app);
 }
 
