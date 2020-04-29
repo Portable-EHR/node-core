@@ -29,10 +29,9 @@ process.on('exit',  () => {
 });
 
 const { makeDirIfNeeded } = require('../lib/utils');
-const { sysopPath, NodeName, appVersion, config:{ selfRestServer }, launchParams } = require('../../lib/node');
+const { processPath, NodeName, appVersion, config:{ selfRestServer }, launchParams } = require('../../lib/node');
 
-makeDirIfNeeded(sysopPath + '/tmp');
-makeDirIfNeeded(sysopPath + '/log');
+makeDirIfNeeded(processPath + '/log');
 
 let logger = log4js.getLogger(fileTag+'|'+NodeName);
 
