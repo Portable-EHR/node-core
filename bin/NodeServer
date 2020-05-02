@@ -13,7 +13,7 @@
 
 'use strict';
 
-const fileTag = __filename.replace(/(.*\/)([^.]*)(.*)/, '$2');
+const fileTag = __filename.replace(/(.*\/)(.+?)([.]js)?$/, '$2');
 
 /*
  wherever, however, whenever ... this is started, lets base the process to the /bin folder
