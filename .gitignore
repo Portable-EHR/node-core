@@ -11,3 +11,7 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
+package-lock.json
+/node_modules
+/node_modules/**
+/node_modules/**/.git
