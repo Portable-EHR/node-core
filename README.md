@@ -7,7 +7,12 @@ This module include multiple libraries that are likely to be required in any Por
     - python-itertools-inspired generators : zip(), chain(), repeat() and groupBy(), plus
     - prototypesAlongTheProtoChain() and collectNonOverriddenProtoFunctionsAlongTheProtoChain() generators
     - time related now(), dateAdd(), minIntervalInMs(), isInvalidDate(), toDate(), strToDate() and onlyDate() functions
-    - string, JSON, html, B64, and sha utility functions
+    - string, JSON, html, B64, and sha utility functions :
+        - repr(), emptyField(), capitalizeName(), decapitalizeName(), normalizeString(), normalizeName(), normalizePhoneNumber() and hex() functions
+        - niceJSON(), commentsLitOb(), sansCommentLitOb() and sansCommentJSON() functions
+        - html .pre(), .h1(), .h2(), .h3(), .h4(), .bold(), .small() functions
+        - getSha() function
+        - toUrlB64(), fromUrlB64() and fromUrlB64ToString() functions   
     - showJwt(), jwtBody() and jwtExpiry() functions, plus Jwt() constructor
     - cleanUrlPath(), makeDirIfNeeded() and buildFromFile() file helper functions
     - dbMsg(), bailOut(), expectedErrorProtoDefaultProps(), DeclareExpectedError() and isInstanceOfError() functions, plus
