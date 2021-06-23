@@ -1,0 +1,21 @@
+{
+  "name": "@portable-ehr/nodecore",
+  "version": "0.0.0",
+  "private": true,
+  "license": "Apache 2.0",
+  "scripts": {
+    "start": "node ./bin/NodeServer"
+  },
+  "dependencies": {
+    "js-sha256": "^0.9.0",
+    "log4js": "^6.3.0",
+    "mysql": "^2.18.1",
+    "njwt": "^1.1.0",
+    "node-schedule": "^2.0.0",
+    "npm": "^7.18.1",
+    "secure-random": "^1.1.2",
+    "uuid": "^8.3.2",
+    "ws": "^7.5.0",
+    "yargs": "^17.0.1"
+  }
+}
