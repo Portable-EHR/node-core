@@ -123,9 +123,9 @@ server.on('listening', () => {
     const addr = server.address();
     logger.info(`[SERVER]              listening on port :                      ${addr.port}`);
 
-    app .start()                                                            //  First Promise chain is spawned here!
+    app .start(logger)                                                      //  First Promise chain is spawned here!
         .catch(e => {
-            logger.log("Error in NodeServerApp.start() :", e.stack)
+            bailOut(logger, `Error in ${nodeServerApp}.start() :`, e);
         });
 });
 
