@@ -75,6 +75,7 @@ logger.info(`[EXPRESS]             spawning ...`);
 
 const http   = require('http');
 const https  = require('https');
+const nodeServerApp = process.env.PEHR_NODE_APP || '/NodeServerApp';
 const app    = require('../../NodeServerApp');
 
 /**
