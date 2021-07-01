@@ -1,4 +1,4 @@
-#### nodeCore librairies
+#### nodecore librairies
 
 This module include multiple libraries that are likely to be required in any Portable EHR node implementation.
 

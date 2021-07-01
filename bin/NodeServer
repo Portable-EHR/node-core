@@ -22,14 +22,16 @@ const fileTag = __filename.replace(/(.*\/)(.+?)([.]js)?$/, '$2');
 
 const fs       = require('fs');
 const log4js   = require('log4js');
+const { PEHR_NODE_CWD } = process.env;
 
-process.chdir(__dirname.replace(/(.*\/)(.*\/.*)/, '$1'));   //  === _dirname+'/../..'
+process.chdir(PEHR_NODE_CWD);
+console.log(`process.chdir(${PEHR_NODE_CWD})`);
 process.on('exit',  () => {
     log4js.shutdown()
 });
 
 const { makeDirIfNeeded, bailOut } = require('../lib/utils');
-const { processPath, NodeName, appVersion, config:{ selfRestServer }, launchParams } = require('../../lib/node');
+const { processPath, NodeName, appVersion, config:{ selfRestServer }, launchParams } = require(PEHR_NODE_CWD+(process.env.PEHR_NODE_LIB_NODE || '/lib/node'));
 
 makeDirIfNeeded(processPath + '/log');
 
@@ -76,7 +78,7 @@ logger.info(`[EXPRESS]             spawning ...`);
 const http   = require('http');
 const https  = require('https');
 const nodeServerApp = process.env.PEHR_NODE_APP || '/NodeServerApp';
-const app    = require('../../NodeServerApp');
+const app    = require(PEHR_NODE_CWD + nodeServerApp);
 
 /**
  * Create HTTP server.
