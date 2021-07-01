@@ -120,14 +120,16 @@ server.on('error',  e => {
  * Event listener for HTTP server "listening" event.
  */
 
-server.on('listening', () => {
+server.on('listening', async () => {
     const addr = server.address();
     logger.info(`[SERVER]              listening on port :                      ${addr.port}`);
 
-    app .start(logger)                                                      //  First Promise chain is spawned here!
-        .catch(e => {
-            bailOut(logger, `Error in ${nodeServerApp}.start() :`, e);
-        });
+    try {
+        await app.start(logger);
+    }
+    catch (e) {
+        bailOut(logger, `Error in ${nodeServerApp}.start() :`, e);
+    }
 });
 
 /**
