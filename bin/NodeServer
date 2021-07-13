@@ -35,7 +35,8 @@ const { processPath, NodeName, appVersion, config:{ selfRestServer }, launchPara
 
 makeDirIfNeeded(processPath + '/log');
 
-let logger = log4js.getLogger(fileTag+'|'+NodeName);
+log4js.configure(launchParams.log4jsConfig);                        //  reconfigure just for the local NodeServer logger
+const logger = log4js.getLogger(fileTag+'|'+NodeName);
 
 process.on('unhandledRejection', (reason, promise) => {
     // noinspection JSCheckFunctionSignatures
