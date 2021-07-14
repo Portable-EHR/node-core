@@ -24,6 +24,11 @@ const fs       = require('fs');
 const log4js   = require('log4js');
 const { PEHR_NODE_CWD } = process.env;
 
+if (undefined === PEHR_NODE_CWD) {
+    console.log(`\nERROR: Before running nodecore/bin/NodeServer, the environment variable PEHR_NODE_CWD must be defined with the path to the Node code base using nodecore.\n\nBailing out.`);
+    process.exit(1);
+}
+
 process.chdir(PEHR_NODE_CWD);
 console.log(`process.chdir(${PEHR_NODE_CWD})`);
 process.on('exit',  () => {
