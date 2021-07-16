@@ -56,6 +56,9 @@ This module include multiple libraries that are likely to be required in any Por
     
 - lib/dao : provides :
     - noRow() Error constructor
+    - EDbJsType enum 
+    
+- lib/my-dao : provides :
     - CURRENT_TIMESTAMP() and CURRENT_TIMESTAMP_3() functions
     - dbInsert()
     - dbUpdate()
@@ -63,7 +66,6 @@ This module include multiple libraries that are likely to be required in any Por
     - fetchFromDb() functions
     - doInTransaction() context function
     - isoDateStrToDbDate() and dbDateToIsoDateStr() functions
-    - EDbJsType enum 
     - parseTableSchema() function
     
 - lib/nao : provides :
