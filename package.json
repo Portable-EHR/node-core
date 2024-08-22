@@ -6,6 +6,7 @@
     "start": "node ./bin/NodeServer"
   },
   "dependencies": {
+    "@tsmx/secure-config": "^2.2.1",
     "js-sha256": "^0.9.0",
     "mssql": "^7.2.0",
     "mysql": "^2.18.1",
